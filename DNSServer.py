@@ -32,20 +32,20 @@ def generate_aes_key(password, salt):
 
 # Lookup details on fernet in the cryptography.io documentation    
 def encrypt_with_aes(input_string, password, salt):
-    key = generate_aes_key(????)
-    f = Fernet(???)
-    encrypted_data = f.????(????.encode('utf-8')) #call the Fernet encrypt method
+    key = generate_aes_key(password,salt)
+    f = Fernet(key)
+    encrypted_data = f.encrypt(input_string.encode('utf-8')) #call the Fernet encrypt method
     return encrypted_data    
 
 def decrypt_with_aes(encrypted_data, password, salt):
-    key = generate_aes_key(????)
-    f = Fernet(????)
-    decrypted_data = f.????(????) #call the Fernet decrypt method
+    key = generate_aes_key(password,salt)
+    f = Fernet(key)
+    decrypted_data = f.decrypt(encrypted_data) #call the Fernet decrypt method
     return decrypted_data.decode('utf-8')
 
-salt = ???? # Remember it should be a byte-object
-password = ?????
-input_string = ?????
+salt = b'Kay' # Remember it should be a byte-object
+password = 'testtest'
+input_string = 'hello'
 
 encrypted_value = encrypt_with_aes(input_string, password, salt) # exfil function
 decrypted_value = decrypt_with_aes(encrypted_value, password, salt)  # exfil function
@@ -81,7 +81,7 @@ dns_records = {
 
 def run_dns_server():
     # Create a UDP socket and bind it to the local IP address (what unique IP address is used here, similar to webserver lab) and port (the standard port for DNS)
-    server_socket = socket.socket(socket.AF_INET, ????) # Research this
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Research this
     server_socket.bind((?????, ????))
 
     while True:
